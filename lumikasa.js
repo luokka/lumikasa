@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 //Lumikasa source code (Luokkanen Janne, 2015-2025)
-const version = "0x4D4";
+const version = "0x4D5";
 
 function TimeNow(){
 	//return Date.now();
@@ -1174,7 +1174,7 @@ function LoadLevel(lIndex){
 		Terrain.canvas = stageCanvas;
 		Terrain.render = stageRender;
 		
-		Terrain.render.drawImage(Stages[lIndex], 0, 0 );
+		Terrain.render.drawImage(Stages[lIndex], 0, 0);
 		
 		Terrain.colData = CreateColData(Terrain.render.getImageData(0, 0, Terrain.canvas.width, Terrain.canvas.height).data);
 	}
@@ -1976,7 +1976,7 @@ for(let step = Game.steps; step >= 1; step--){
 				player.render.translate(player.playerRadius,player.playerRadius);
 				player.render.rotate(player.rotMomentum*degToRad);
 				player.render.translate(-player.playerRadius,-player.playerRadius);
-				player.render.drawImage(tempCanvas, 0, 0 );
+				player.render.drawImage(tempCanvas, 0, 0);
 			}
 		}
 	}
