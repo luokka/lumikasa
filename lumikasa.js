@@ -1869,7 +1869,8 @@ for(let step = Game.steps; step >= 1; step--){
 		if(player.up){
 			if(Game.noClip)
 				player.playerPosY -= Game.maxSpeed*player.upValue;
-		} else if(player.down){
+		}
+		if(player.down){
 			if(Game.noClip)
 				player.playerPosY += Game.maxSpeed*player.downValue;
 		}
