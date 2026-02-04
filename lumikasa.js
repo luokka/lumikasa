@@ -1,7 +1,7 @@
 ﻿'use strict';
 
-//Lumikasa source code (Luokkanen Janne, 2015-2025)
-const version = "0x4D5";
+//Lumikasa source code (Luokkanen Janne, 2015-2026)
+const version = "0x4D6";
 
 function TimeNow(){
 	//return Date.now();
@@ -1833,7 +1833,8 @@ for(let step = Game.steps; step >= 1; step--){
 				player.playerPosX -= Game.maxSpeed*player.leftValue;
 			else if(player.momentumX > -Game.maxSpeed*player.leftValue) //can go faster with knockBack
 				player.momentumX = Math.max(player.momentumX-Game.acceleration,-Game.maxSpeed*player.leftValue);
-		} else if(player.right){
+		}
+		if(player.right){
 			if(Game.noClip)
 				player.playerPosX += Game.maxSpeed*player.rightValue;
 			else if(player.momentumX < Game.maxSpeed*player.rightValue) //can go faster with knockBack
