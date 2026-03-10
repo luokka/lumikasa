@@ -11,5 +11,5 @@
 	],
 	"name": "Lumikasa",
 	"short_name": "Lumikasa",
-	"start_url": "/lumikasa/index.html"
+	"start_url": "./index.html"
 }
