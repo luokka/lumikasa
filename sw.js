@@ -1,0 +1,113 @@
+﻿'use strict';
+
+const version = "2026.03.10";
+const cacheID = "lumikasa-"+version;
+const resources = [
+	"/lumikasa/",
+	"/lumikasa/index.html",
+	"/lumikasa/lumikasa.js",
+	"/lumikasa/favicon.svg",
+	"/lumikasa/assets/crosshair1.gif",
+	"/lumikasa/assets/crosshair2.gif",
+	"/lumikasa/assets/crosshair3.gif",
+	"/lumikasa/assets/crosshair4.gif",
+	"/lumikasa/assets/terrain.gif",
+	"/lumikasa/assets/cancel.ogg",
+	"/lumikasa/assets/charge.ogg",
+	"/lumikasa/assets/confirm.ogg",
+	"/lumikasa/assets/death.ogg",
+	"/lumikasa/assets/select.ogg",
+	"/lumikasa/assets/shot.ogg",
+	"/lumikasa/assets/snow.ogg",
+	"/lumikasa/assets/level0.png",
+	"/lumikasa/assets/level1.png",
+	"/lumikasa/assets/level2.png",
+	"/lumikasa/assets/level3.png",
+	"/lumikasa/assets/level4.png",
+	"/lumikasa/assets/level5.png",
+	"/lumikasa/assets/level6.png",
+	"/lumikasa/assets/level7.png",
+	"/lumikasa/assets/level8.png",
+	"/lumikasa/assets/level9.png",
+	"/lumikasa/assets/level10.png",
+	"/lumikasa/assets/level11.png",
+	"/lumikasa/assets/level12.png",
+	"/lumikasa/assets/level13.png",
+	"/lumikasa/assets/level14.png",
+	"/lumikasa/assets/level15.png",
+	"/lumikasa/assets/level16.png",
+	"/lumikasa/assets/level17.png",
+	"/lumikasa/assets/level18.png",
+	"/lumikasa/assets/level19.png",
+	"/lumikasa/assets/level20.png",
+	"/lumikasa/assets/level21.png",
+	"/lumikasa/assets/level22.png",
+	"/lumikasa/assets/level23.png",
+	"/lumikasa/assets/level24.png",
+	"/lumikasa/assets/level25.png",
+	"/lumikasa/assets/level26.png",
+	"/lumikasa/assets/level27.png",
+	"/lumikasa/assets/level28.png",
+	"/lumikasa/assets/level29.png",
+	"/lumikasa/assets/level30.png",
+	"/lumikasa/assets/level31.png",
+	"/lumikasa/assets/level32.png",
+	"/lumikasa/assets/level33.png",
+	"/lumikasa/assets/level34.png",
+	"/lumikasa/assets/level35.png",
+	"/lumikasa/assets/level36.png",
+	"/lumikasa/assets/level37.png",
+	"/lumikasa/assets/level38.png",
+	"/lumikasa/assets/level39.png",
+	"/lumikasa/assets/level40.png",
+	"/lumikasa/assets/level41.png",
+	"/lumikasa/assets/level42.png",
+	"/lumikasa/assets/level43.png",
+	"/lumikasa/assets/level44.png",
+	"/lumikasa/assets/level45.png",
+	"/lumikasa/assets/level46.png",
+	"/lumikasa/assets/level47.png",
+	"/lumikasa/assets/level48.png",
+	"/lumikasa/assets/level49.png",
+	"/lumikasa/assets/level50.png",
+	"/lumikasa/assets/level51.png",
+	"/lumikasa/assets/level52.png",
+	"/lumikasa/assets/level53.png",
+	"/lumikasa/assets/level54.png",
+	"/lumikasa/assets/level55.png",
+	"/lumikasa/assets/level56.png",
+	"/lumikasa/assets/level57.png",
+	"/lumikasa/assets/level58.png",
+	"/lumikasa/assets/level59.png",
+	"/lumikasa/assets/level60.png",
+	"/lumikasa/assets/level61.png",
+	"/lumikasa/assets/level62.png",
+	"/lumikasa/assets/level63.png",
+	"/lumikasa/assets/level64.png",
+	"/lumikasa/assets/level65.png",
+	"/lumikasa/assets/level66.png",
+	"/lumikasa/assets/level67.png",
+	"/lumikasa/assets/level68.png",
+	"/lumikasa/assets/stage0.png",
+	"/lumikasa/assets/stage1.png",
+	"/lumikasa/assets/stage2.png",
+	"/lumikasa/assets/stage3.png",
+	"/lumikasa/assets/stage4.png",
+	"/lumikasa/assets/stage5.png",
+	"/lumikasa/assets/stage6.png",
+	"/lumikasa/assets/stage7.png"
+];
+
+self.addEventListener('install', (e) => {
+	e.waitUntil(caches.open(cacheID).then((cache) => cache.addAll(resources)));
+});
+
+self.addEventListener('activate', (e) => {
+	e.waitUntil(caches.keys().then((cacheIDs) => Promise.all(cacheIDs.map((id) => {
+		if(id!==cacheID) return caches.delete(id);
+	}))));
+});
+
+self.addEventListener('fetch', (e) => {
+	e.respondWith(caches.match(e.request).then((response) => response || fetch(e.request)));
+});

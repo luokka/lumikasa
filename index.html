@@ -1,7 +1,8 @@
 ﻿<!doctype html>
 <html lang="en">
 <head>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
 <title>Lumikasa</title>
@@ -14,5 +15,10 @@
 <body>
 <canvas id="gameCanvas" tabindex="1"></canvas>
 <script src="lumikasa.js"></script>
+<script>
+'use strict';
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/lumikasa/sw.js');
+else console.log("serviceWorker NOT supported");
+</script>
 </body>
 </html>

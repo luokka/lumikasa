@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 //Lumikasa source code (Luokkanen Janne, 2015-2026)
-const version = "0x4D6";
+const version = "0x4D7";
 
 function TimeNow(){
 	//return Date.now();
@@ -150,12 +150,12 @@ const Terrain = {
 const Crosshair = [null,new Image(),new Image(),new Image(),new Image()];
 let loadCrossCount = Crosshair.length-1;
 for(let i = 1; i < Crosshair.length; i++){
-	Crosshair[i].src = "assets/crosshair"+i+".gif";
 	Crosshair[i].onload = function(){
 		loadCrossCount--;
 		this.xOffset = this.naturalWidth/2;
 		this.yOffset = this.naturalHeight/2;
 	};
+	Crosshair[i].src = "assets/crosshair"+i+".gif";
 }
 
 const Sounds = {
@@ -920,8 +920,6 @@ gameCanvas.addEventListener('drop', function(event){
 			break;
 		}
 		let customStageImage = new Image();
-		customStageImage.src = URL.createObjectURL(file);
-		
 		loadStageCount++;
 		
 		customStageImage.onerror = function(){
@@ -940,6 +938,7 @@ gameCanvas.addEventListener('drop', function(event){
 			
 			loadStageCount--;
 		};
+		customStageImage.src = URL.createObjectURL(file);
 	}
 });
 gameCanvas.addEventListener('dragover', function(event){

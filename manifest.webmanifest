@@ -1,0 +1,15 @@
+﻿{
+	"background_color": "black",
+	"description": "Lumikasa game",
+	"display": "standalone",
+	"icons": [
+		{
+		"src": "favicon.svg",
+		"sizes": "any",
+		"type": "image/svg+xml"
+		}
+	],
+	"name": "Lumikasa",
+	"short_name": "Lumikasa",
+	"start_url": "/lumikasa/index.html"
+}
