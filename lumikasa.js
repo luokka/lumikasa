@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 //Lumikasa source code (Luokkanen Janne, 2015-2026)
-const version = "0x4D7";
+const version = "0x4D8";
 
 function TimeNow(){
 	//return Date.now();
@@ -159,18 +159,22 @@ for(let i = 1; i < Crosshair.length; i++){
 }
 
 const Sounds = {
-	confirm:new Audio("assets/confirm.ogg"),
-	cancel:new Audio("assets/cancel.ogg"),
-	select:new Audio("assets/select.ogg"),
-	snow:new Audio("assets/snow.ogg"),
-	charge:new Audio("assets/charge.ogg"),
-	shot:new Audio("assets/shot.ogg"),
-	death:new Audio("assets/death.ogg")
+	confirm:new Audio(),
+	cancel:new Audio(),
+	select:new Audio(),
+	snow:new Audio(),
+	charge:new Audio(),
+	shot:new Audio(),
+	death:new Audio()
 };
 let loadSoundCount = Object.keys(Sounds).length;
 for(let sound in Sounds){
-	if(Sounds.hasOwnProperty(sound))
+	if(Sounds.hasOwnProperty(sound)){
 		Sounds[sound].oncanplaythrough = function(){loadSoundCount--;};
+		fetch(new Request("assets/"+sound+".ogg")).then((response) => response.blob()).then((blob) => {
+			Sounds[sound].src = URL.createObjectURL(blob); //audio load workaround for ServiceWorker
+		});
+	}
 }
 
 const Players = [];
