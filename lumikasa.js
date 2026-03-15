@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 //Lumikasa source code (Luokkanen Janne, 2015-2026)
-const version = "0x4D8";
+const version = "0x4D9";
 
 function TimeNow(){
 	//return Date.now();
@@ -168,11 +168,11 @@ const Sounds = {
 	death:new Audio()
 };
 let loadSoundCount = Object.keys(Sounds).length;
-for(let sound in Sounds){
-	if(Sounds.hasOwnProperty(sound)){
-		Sounds[sound].oncanplaythrough = function(){loadSoundCount--;};
-		fetch(new Request("assets/"+sound+".ogg")).then((response) => response.blob()).then((blob) => {
-			Sounds[sound].src = URL.createObjectURL(blob); //audio load workaround for ServiceWorker
+for(let soundName in Sounds){
+	if(Sounds.hasOwnProperty(soundName)){
+		Sounds[soundName].oncanplaythrough = function(){loadSoundCount--;};
+		fetch(new Request("assets/"+soundName+".ogg")).then((response) => response.blob()).then((blob) => {
+			Sounds[soundName].src = URL.createObjectURL(blob); //audio load workaround for ServiceWorker
 		});
 	}
 }
@@ -232,10 +232,7 @@ for(let i = 0; i <= 4; i++){
 		rotMomentum:0.0,
 		score:0,
 		sizeLevel:0,
-		Sounds:{
-			charge:new Audio(Sounds.charge.src),
-			death:new Audio(Sounds.death.src)
-		},
+		Sounds:{charge:null,shot:null,death:null},
 		statusVisibility:0,
 		up:false,
 		upValue:0
@@ -487,37 +484,23 @@ function PlaySound(sound){
 			sound.play();
 		}
 	}
-} function StopLoop(sound){
-	sound.volume = 0;
-	sound.loop = false;
-} function StopLoops(sounds){
-	for(let sound in sounds){
-		if(sounds.hasOwnProperty(sound)){
-			if(sounds[sound].loop)
-				StopLoop(sounds[sound]);
-		}
-	}
 } function StopSound(sound){
 	sound.volume = 0;
 	sound.loop = false;
 	//sound.pause(); //seems to cause issues
+} function StopSounds(sounds){
+	for(let soundName in sounds){
+		if(sounds.hasOwnProperty(soundName) && sounds[soundName]!==null){
+			if(sounds[soundName].length) //array of sounds
+				for(let sound of sounds[soundName])
+					StopSound(sound);
+			StopSound(sounds[soundName]);
+		}
+	}
 } function StopAllSounds(){
-	for(let sound in Sounds){
-		if(Sounds.hasOwnProperty(sound))
-			StopSound(Sounds[sound]);
-	}
-	for(let player of Players){
-		for(let sound in player.Sounds){
-			if(player.Sounds.hasOwnProperty(sound))
-				StopSound(player.Sounds[sound]);
-		}
-		for(let ball of player.Balls){
-			for(let sound in ball.Sounds){
-				if(ball.Sounds.hasOwnProperty(sound))
-					StopSound(ball.Sounds[sound]);
-			}
-		}
-	}
+	StopSounds(Sounds);
+	for(let player of Players)
+		StopSounds(player.Sounds);
 }
 function ScreenSize(){ //Initialize game screen and update sizes (if screensize changes...)
 	Screen.deviceRatio = window.devicePixelRatio;
@@ -1215,8 +1198,9 @@ function InitializePlayer(player,newGame){
 		player.lives = Game.lifeCount;
 		player.score = 0;
 		player.statusVisibility = 0;
-		for(let ball of player.Balls)
-			StopLoops(ball.Sounds);
+		player.Sounds.charge = player.Sounds.charge || Sounds.charge.cloneNode(true);
+		player.Sounds.shot = player.Sounds.shot || [Sounds.shot.cloneNode(true)];
+		player.Sounds.death = player.Sounds.death || Sounds.death.cloneNode(true);
 		player.Balls = [];
 	}
 	player.pixelCountMax = 100;
@@ -1328,14 +1312,21 @@ function CreateShot(player){
 			level:0,
 			player:player,
 			render:null,
-			Sounds:{
-				shot:new Audio(Sounds.shot.src)
-			},
+			Sounds:{shot:null},
 			Vectors:[],
 			Xdirection:0,
 			Ydirection:0
 		})-1
 	];
+	let shotSounds = player.Sounds.shot;
+	for(let shotSound of shotSounds){
+		if(shotSound.ended || shotSound.currentTime===0 || shotSound.volume===0){
+			newBall.Sounds.shot = shotSound;
+			break;
+		}
+	}
+	if(newBall.Sounds.shot===null)
+		newBall.Sounds.shot = shotSounds[shotSounds.push(shotSounds[0].cloneNode(true))-1];
 	
 	newBall.canvas = document.createElement('canvas');
 	newBall.canvas.width = 1;
@@ -1347,8 +1338,6 @@ function CreateShot(player){
 }
 function RemoveShot(ball){
 	let player = ball.player;
-	
-	StopLoops(ball.Sounds);
 	player.Balls.splice(player.Balls.indexOf(ball),1);
 }
 function ChargeShot(change, ball){
@@ -1920,7 +1909,7 @@ for(let step = Game.steps; step >= 1; step--){
 				}
 			}
 		} else if(ball !== null && !ball.isMoving){
-			StopLoop(player.Sounds.charge);
+			StopSound(player.Sounds.charge);
 			
 			if(ball.ballSize>0){
 				CreateColVectors(ball);
