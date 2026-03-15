@@ -491,10 +491,11 @@ function PlaySound(sound){
 } function StopSounds(sounds){
 	for(let soundName in sounds){
 		if(sounds.hasOwnProperty(soundName) && sounds[soundName]!==null){
-			if(sounds[soundName].length) //array of sounds
+			if(sounds[soundName].length){ //array of sounds
 				for(let sound of sounds[soundName])
 					StopSound(sound);
-			StopSound(sounds[soundName]);
+			} else
+				StopSound(sounds[soundName]);
 		}
 	}
 } function StopAllSounds(){
