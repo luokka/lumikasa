@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 //Lumikasa source code (Luokkanen Janne, 2015-2026)
-const version = "0x4D9";
+const version = "0x4DA";
 
 function TimeNow(){
 	//return Date.now();
@@ -948,13 +948,15 @@ gameCanvas.addEventListener('dblclick', function(event){
 window.addEventListener('resize', function(event){
 	ScreenSize();
 });
-/*window.addEventListener('gamepadconnected', function(event){
+window.addEventListener('gamepadconnected', function(event){
 	UpdateInputMethods();
 });
 window.addEventListener('gamepaddisconnected', function(event){
 	UpdateInputMethods();
-});*/
+});
 function UpdateInputMethods(){
+	if(KeyBind.inProgress)
+		StopKeyBind();
 	for(let pl = 1; pl < Players.length; pl++)
 		Players[pl].inputMethod = -1;
 	
@@ -984,11 +986,8 @@ function CheckGamepads(){
 		if(gamepad === null || !gamepad.connected) //checking for empty gamepads
 			emptyGamepads++;
 	}
-	if(gamepads.length-emptyGamepads !== InputMethods.length-1){
-		if(KeyBind.inProgress)
-			StopKeyBind();
-		UpdateInputMethods();
-	}
+	if(gamepads.length-emptyGamepads !== InputMethods.length-1)
+		UpdateInputMethods(); //old failsafe (not needed anymore?)
 	
 	if(InputMethods.length<=1) //if keyboard&mouse is the only inputMethod
 		return;
