@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 //Lumikasa source code (Luokkanen Janne, 2015-2026)
-const version = "0x4DA";
+const version = "0x4DB";
 
 function TimeNow(){
 	//return Date.now();
@@ -779,7 +779,8 @@ document.addEventListener('keydown', function(event){
 	}
 });
 document.addEventListener('keyup', function(event){
-	InputUpdate(event.code,InputMethods[0].players,0);
+	if(InputUpdate(event.code,InputMethods[0].players,0))
+		event.preventDefault();
 });
 gameCanvas.addEventListener('mousedown', function(event){
 	UpdateMousePos(event.clientX-this.offsetLeft,event.clientY-this.offsetTop);
@@ -801,7 +802,8 @@ gameCanvas.addEventListener('mousedown', function(event){
 	event.preventDefault();
 });
 document.addEventListener('mouseup', function(event){
-	InputUpdate("m"+event.button,InputMethods[0].players,0);
+	if(InputUpdate("m"+event.button,InputMethods[0].players,0))
+		event.preventDefault();
 	Mouse.draw = -1;
 	Mouse.drag = false;
 });

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-const version = "2026.03.15";
+const version = "2026.04.04";
 const cacheID = "lumikasa-"+version;
 const resources = [
 	"./",
