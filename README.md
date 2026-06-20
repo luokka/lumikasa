@@ -1,5 +1,7 @@
 # Lumikasa game project
 
+https://luokka.github.io/lumikasa/
+
 A game where you play as a snowball that shoots snowballs. Game engine developed by me.
 
 Stages can be added by dropping image files into the game when stage select window is open
